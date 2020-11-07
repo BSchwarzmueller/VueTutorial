@@ -79,6 +79,7 @@ export default {
     toggleFavourite(id) {
       console.log(`Favourite Tweet #${id}`);
     },
+
     createNewTwoot() {
       if (this.newTwootContent && this.newTwootType !== "draft") {
         this.user.twoots.unshift({
@@ -88,6 +89,7 @@ export default {
       }
       this.newTwootContent = "";
     },
+
   },
   mounted() {
     this.followUser();
@@ -129,6 +131,7 @@ h1 {
   color: rgb(123, 212, 50);
   font-weight: bold;
 }
+
 .user-profile__twoots-wrapper {
   margin-right: auto;
   padding: 5px;
@@ -139,4 +142,5 @@ h1 {
   border-top: 1px solid black;
   padding: 5px;
 }
+
 </style>
