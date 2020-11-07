@@ -7,8 +7,25 @@
       <div class="user-profile__follower-count">
         <strong>Followers:</strong> {{ followers }}
       </div>
+      <form class="user-profile__create-twoot" @submit.prevent="createNewTwoot">
+        <label for="newTwoot"><strong>NewTwoot</strong></label>
+        <textarea id="newTwoot" rows="4" v-model="newTwootContent" />
+        <div class="user-profile__create-twoot-type">
+          <label for="newTwootType"><strong>Type: </strong></label>
+          <select id="newTwootType" v-model="newTwootType">
+            <option
+              :value="option.value"
+              v-for="(option, index) in twootTypes"
+              :key="index"
+            >
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
+        <button>Twoot!</button>
+      </form>
     </div>
-    <div class="user-profile_twoots-wrapper">
+    <div class="user-profile__twoots-wrapper">
       <TwootItem
         v-for="twoot in user.twoots"
         :key="twoot.id"
@@ -24,10 +41,15 @@
 import TwootItem from "./Twootitem";
 export default {
   name: "UserProfile",
-
   components: { TwootItem },
   data() {
     return {
+      newTwootContent: "",
+      newTwootType: "instant",
+      twootTypes: [
+        { value: "draft", name: "Draft" },
+        { value: "instant", name: "Instant Twoot" },
+      ],
       followers: 0,
       user: {
         id: 1,
@@ -57,6 +79,17 @@ export default {
     toggleFavourite(id) {
       console.log(`Favourite Tweet #${id}`);
     },
+
+    createNewTwoot() {
+      if (this.newTwootContent && this.newTwootType !== "draft") {
+        this.user.twoots.unshift({
+          id: this.user.twoots.length + 1,
+          content: this.newTwootContent,
+        });
+      }
+      this.newTwootContent = "";
+    },
+
   },
   mounted() {
     this.followUser();
@@ -98,8 +131,16 @@ h1 {
   color: rgb(123, 212, 50);
   font-weight: bold;
 }
-.user-profile_twoots-wrapper {
+
+.user-profile__twoots-wrapper {
   margin-right: auto;
   padding: 5px;
 }
+.user-profile__create-twoot {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid black;
+  padding: 5px;
+}
+
 </style>
